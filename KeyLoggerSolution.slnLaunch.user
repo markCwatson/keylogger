@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "KeyLoggerServer\\KeyLoggerServer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "KeyLoggerClient\\KeyLoggerClient.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
