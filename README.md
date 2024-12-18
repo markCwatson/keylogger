@@ -1,5 +1,5 @@
-[!WARNING]
-For educational purposes only!
+> [!WARNING]
+> For educational purposes only!
 
 ---
 # Key Logger
