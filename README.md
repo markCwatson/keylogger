@@ -2,7 +2,14 @@
 > For educational purposes only!
 
 ---
+
 # Key Logger
+
+This project includes a key logger client which logs all key strokes and a TCP server which accepts the incoming key stroke stream and writes it to a file.
+
+---
+
+# Setup
 
 Here’s how to run the TCP server **locally** or inside a **Docker container** and deploy it to a cloud VM.
 
