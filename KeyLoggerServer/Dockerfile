@@ -1,5 +1,5 @@
-# Use the official .NET 6 runtime image
-FROM mcr.microsoft.com/dotnet/runtime:6.0
+# Use the official .NET 5 runtime image
+FROM mcr.microsoft.com/dotnet/runtime:5.0
 
 # Set the working directory
 WORKDIR /app
