@@ -40,6 +40,7 @@ Here’s how to run the TCP server **locally** or inside a **Docker container** 
 
 4. **Test Locally**:
    - The server should now be running at `127.0.0.1:5001`.
+   - You can test this by using `nc` (NetCat) or `telnet` in the terminal like `echo "Your Message" | nc -v 127.0.0.1 5001`. Inspect the server log to verify.
    - Run the **keylogger client** and confirm it can connect to the server.
 
 ---
